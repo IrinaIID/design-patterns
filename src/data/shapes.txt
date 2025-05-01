@@ -1,0 +1,5 @@
+Ellipse ellipse1 0 0 4 5
+Cube cube1 1 1 1 3
+Cube cube2 0 0 0 -2
+Ellipse ellipse2 2a.0 3.0 4.0
+Cube cube3 1.0 2.0
