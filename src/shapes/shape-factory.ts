@@ -3,6 +3,7 @@ import { EllipseEntity, CubeEntity } from "../entities/shape-entities";
 
 export class ShapeFactory {
   static createShape(type: string, coords: number[], name: string): EllipseEntity | CubeEntity {
+    
     switch (type.toLowerCase()) {
       case 'ellipse':
         return this.createEllipse(name, coords);

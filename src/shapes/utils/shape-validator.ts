@@ -1,17 +1,3 @@
-// export class ShapeValidator {
-//   static isValidEllipseInput(data: number[]): boolean {
-//     if (data.length < 4) return false;
-//     return data.every(n => typeof n === 'number' && !isNaN(n));
-//   }
-
-//   static isValidCubeInput(data: number[]): boolean {
-//     if (data.length < 4) return false;
-//     const side = data[3];
-//     return data.every(n => typeof n === 'number' && !isNaN(n)) && side > 0;
-//   }
-// }
-
-
 export class InputValidator {
   static validateEllipseInput(coords: number[]): boolean {
     if (coords.length !== 4) return false;
