@@ -4,3 +4,5 @@ Cube cube2 0 0 0 -2
 Ellipse ellipse2 2a.0 3.0 4.0
 Cube cube3 1.0 2.0
 Ellipsepp ellipse1 0 0 4 5
+Ellipse ellipse3 1.0 2.0 5.0 6.0
+Cube cube4 0 0 0 4

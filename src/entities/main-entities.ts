@@ -28,9 +28,20 @@ export class Point {
   }
 }
 
-export class Shape {
+export interface Observer {
+  updateMetrics(shape: Shape): void;
+}
+
+export interface Subject {
+  addObserver(observer: Observer): void;
+  removeObserver(observer: Observer): void;
+  notifyObservers(): void;
+}
+
+export class Shape implements Subject {
   private name: string;
   private id: string;
+  private observers: Observer[] = [];
 
   constructor(name: string) {
     this.name = name;
@@ -43,9 +54,22 @@ export class Shape {
 
   setName(name: string): void {
     this.name = name;
+    this.notifyObservers();
   }
 
   getId(): string {
     return this.id;
+  }
+
+  addObserver(observer: Observer): void {
+    this.observers.push(observer);
+  }
+
+  removeObserver(observer: Observer): void {
+    this.observers = this.observers.filter(observerInList => observerInList !== observer);
+  }
+
+  notifyObservers(): void {
+    this.observers.forEach(observerInList => observerInList.updateMetrics(this));
   }
 }
