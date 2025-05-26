@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Task Manager (Composite + Observer)</title>
+</head>
+<body>
+
+  <h1>Task Manager</h1>
+
+  <form id="taskForm">
+    <label>
+      Task name:
+      <input type="text" id="taskName" required />
+    </label>
+    <label>
+      Assign developer:
+      <select id="developerSelect" required>
+        <option value="" disabled selected>Assign developer</option>
+        <option value="Tom">Tom</option>
+        <option value="Anna">Anna</option>
+      </select>
+    </label>
+    <button type="submit">Create task</button>
+  </form>
+
+  <h2>Notifications</h2>
+  <div id="log"></div>
+
+  <script type="module" src="/src/main.ts"></script>
+</body>
+</html>
