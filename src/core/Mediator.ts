@@ -20,17 +20,6 @@ export class GameMediator {
   }
 
   setLevel(level: GAME_COMPLEXITY) {
-    let maxNumber = 10;
-    let maxAttempts = 5;
-
-    if (level === GAME_COMPLEXITY.Medium) {
-      maxNumber = 50;
-      maxAttempts = 10;
-    } else if (level === GAME_COMPLEXITY.Hard) {
-      maxNumber = 100;
-      maxAttempts = 15;
-    }
-
     function getRandomInt(min: number, max: number): number {
       return Math.floor(Math.random() * (max - min + 1)) + min;
     }
@@ -39,7 +28,7 @@ export class GameMediator {
     const targetNumber = getRandomInt(strategy.min, strategy.max);
     this.gameState = new GameState(targetNumber);
 
-    this.onMessage(`Игра началась! Угадайте число от 1 до ${maxNumber}`);
+    this.onMessage(`Game started`);
     this.onUpdateAttempts(0);
   }
 

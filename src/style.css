@@ -160,3 +160,11 @@ button:disabled {
   padding: 8px;
   border: 1px solid #ccc;
 }
+
+.player-name-input {
+  margin-top: 15px;
+}
+
+#win-message {
+  line-height: 170%;
+}
