@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Secret Number Game</title>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Secret Number Game 😶‍🌫️</h1>
+
+    <div class="level-select">
+      <label><input type="checkbox" id="easy-level" checked /> Easy (1-10)</label>
+      <label><input type="checkbox" id="medium-level" /> Medium (1-50)</label>
+      <label><input type="checkbox" id="hard-level" /> Hard (1-100)</label>
+    </div>
+
+    <p id="message" class="status-message"></p>
+
+    <p id="attempts" class="status-message"></p>
+
+    <input type="number" id="input-guess" placeholder="Enter your guess" />
+    <button id="btn-guess">Guess</button>
+
+    <div>
+      <div class="guesses-table-label">Previous guesses:</div>
+      <ol id="guesses-list" class="guess-list"></ol>
+    </div>
+
+    <div id="win-popup" class="popup hidden">
+      <div class="win-message" id="win-message"></div>
+
+      <label for="player-name">Enter your name:</label>
+      <input type="text" id="player-name" placeholder="Your name" />
+
+      <button id="btn-restart">Play again</button>
+    </div>
+
+    <div class="score-table">
+      <h2>Scoreboard</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Attempts</th>
+            <th>Level</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody id="scores-table-body"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <script type="module" src="./main.ts"></script>
+</body>
+</html>
