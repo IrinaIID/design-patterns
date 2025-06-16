@@ -1,6 +1,6 @@
 export class GameState {
   private attempts = 0;
-  private targetNumber: number;
+  private readonly targetNumber: number;
 
   constructor(targetNumber: number) {
     this.targetNumber = targetNumber;

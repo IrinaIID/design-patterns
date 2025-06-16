@@ -11,12 +11,11 @@ const btnRestart = document.getElementById('btn-restart')!;
 const winMessage = document.getElementById('win-message')!;
 const nameInput = document.getElementById('player-name') as HTMLInputElement;
 const scoresTableBody = document.getElementById('scores-table-body')!;
+const attemptsEl = document.getElementById('attempts')!;
 
 const easyCheckbox = document.getElementById('easy-level') as HTMLInputElement;
 const mediumCheckbox = document.getElementById('medium-level') as HTMLInputElement;
 const hardCheckbox = document.getElementById('hard-level') as HTMLInputElement;
-
-const attemptsEl = document.getElementById('attempts')!;
 
 let targetNumber = 0;
 let guesses: number[] = [];
@@ -26,7 +25,7 @@ const scoreHistory = ScoreHistory.getInstance();
 const mediator = new GameMediator(
   (msg: string) => {
     messageEl.textContent = msg;
-    messageEl.classList.toggle('big-hint', msg === 'Больше!' || msg === 'Меньше!');
+    messageEl.classList.toggle('hint', msg === 'More!' || msg === 'Less!');
   },
   (attempts: number) => {
     attemptsEl.textContent = `Attempts: ${attempts}`;
@@ -51,34 +50,23 @@ function renderGuesses() {
   });
 }
 
-function getAttemptWord(count: number): string {
-  if (count === 1) return 'attempt';
-  return 'attempts';
-}
-
 function getCurrentLevelText(): string {
-  if (easyCheckbox.checked) return '1-10';
   if (mediumCheckbox.checked) return '1-50';
   if (hardCheckbox.checked) return '1-100';
   return '1-10';
 }
 
 function showWinPopup() {
-  const attempts = guesses.length;
-
-  const levelText = getCurrentLevelText();
-
   winMessage.innerHTML = `
     🎉 Congratulations! You guessed the number <strong>${targetNumber}</strong>!<br/>
-    ✨ You used <strong>${attempts}</strong> ${getAttemptWord(attempts)}<br/>
-    📊 Level: <strong>${levelText}</strong>
+    ✨ You used <strong>${guesses.length}</strong> attempt(s)<br/>
+    📊 Level: <strong>${getCurrentLevelText()}</strong>
   `;
 
   winPopup.classList.remove('hidden');
   btnGuess.disabled = true;
   inputEl.disabled = true;
 }
-
 
 function hideWinPopup() {
   winPopup.classList.add('hidden');
@@ -91,45 +79,20 @@ function hideWinPopup() {
 }
 
 function setLevelFromCheckboxes() {
-  let level = GAME_COMPLEXITY.Easy
+  let level = GAME_COMPLEXITY.Easy;
   if (mediumCheckbox.checked) level = GAME_COMPLEXITY.Medium;
   if (hardCheckbox.checked) level = GAME_COMPLEXITY.Hard;
 
   mediator.setLevel(level);
   resetGuesses();
-  messageEl.textContent = 'The game has begun! Guess the number.';
-  inputEl.disabled = false;
-  btnGuess.disabled = false;
-  inputEl.value = '';
-  inputEl.focus();
-}
-
-function renderScores() {
-  const scores = scoreHistory.getScores();
-  scoresTableBody.innerHTML = '';
-  scores.forEach((score, index) => {
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td>${index + 1}</td>
-      <td>${score.name}</td>
-      <td>${score.attempts}</td>
-      <td>${score.level}</td>
-      <td>${score.date}</td>
-    `;
-    scoresTableBody.appendChild(tr);
-  });
 }
 
 function handleLevelChange(changed: HTMLInputElement) {
-  [easyCheckbox, mediumCheckbox, hardCheckbox].forEach(checkBox => {
-    if (checkBox !== changed) checkBox.checked = false;
+  [easyCheckbox, mediumCheckbox, hardCheckbox].forEach(checkbox => {
+    if (checkbox !== changed) checkbox.checked = false;
   });
   setLevelFromCheckboxes();
 }
-
-easyCheckbox.addEventListener('change', () => handleLevelChange(easyCheckbox));
-mediumCheckbox.addEventListener('change', () => handleLevelChange(mediumCheckbox));
-hardCheckbox.addEventListener('change', () => handleLevelChange(hardCheckbox));
 
 function makeGuess() {
   const guess = Number(inputEl.value);
@@ -146,6 +109,27 @@ function makeGuess() {
   inputEl.focus();
 }
 
+function renderScores() {
+  const scores = scoreHistory.getScores();
+  scoresTableBody.innerHTML = '';
+  
+  scores.forEach((score, index) => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${index + 1}</td>
+      <td>${score.name}</td>
+      <td>${score.attempts}</td>
+      <td>${score.level}</td>
+      <td>${score.date}</td>
+    `;
+    scoresTableBody.appendChild(tr);
+  });
+}
+
+easyCheckbox.addEventListener('change', () => handleLevelChange(easyCheckbox));
+mediumCheckbox.addEventListener('change', () => handleLevelChange(mediumCheckbox));
+hardCheckbox.addEventListener('change', () => handleLevelChange(hardCheckbox));
+
 btnGuess.addEventListener('click', makeGuess);
 
 inputEl.addEventListener('keydown', (e) => {
@@ -154,21 +138,17 @@ inputEl.addEventListener('keydown', (e) => {
 
 btnRestart.addEventListener('click', () => {
   const playerName = nameInput.value.trim() || 'Unknown player';
-  const attempts = guesses.length;
-  const dateStr = new Date().toLocaleDateString();
-  const levelText = getCurrentLevelText();
-
+  
   scoreHistory.addScore({
     name: playerName,
-    attempts,
-    date: dateStr,
-    level: levelText,
+    attempts: guesses.length,
+    date: new Date().toLocaleDateString(),
+    level: getCurrentLevelText(),
   });
 
   renderScores();
   hideWinPopup();
-  setLevelFromCheckboxes();
 });
 
-
 setLevelFromCheckboxes();
+renderScores();
